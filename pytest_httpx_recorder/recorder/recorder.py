@@ -6,7 +6,7 @@ import httpx
 from httpx._utils import normalize_header_key
 from pytest import MonkeyPatch
 
-from .base import RecordedRequest, RecordedResponse
+from .base import RecordedRequest, RecordedResponse, get_dict_headers
 
 _HEADERS_DEFAULT_BLACKLIST = [
     'user-agent',
@@ -39,17 +39,17 @@ class ResRecorder:
             request=RecordedRequest(
                 method=request.method,
                 url=str(request.url),
-                headers=dict(httpx.Headers(
+                headers=(
                     {
-                        key: value for key, value in request.headers.items()
+                        key: value for key, value in get_dict_headers(request.headers).items()
                         if normalize_header_key(key, lower=True) not in self.request_headers_blacklist
                     } if self.record_request_headers else {}
-                )),
+                ),
                 content=request.content if self.record_request_content else None,
             ),
             status_code=response.status_code,
             http_version=response.http_version,
-            headers=dict(response.headers),
+            headers=get_dict_headers(response.headers),
             content=response.content,
         ))
 

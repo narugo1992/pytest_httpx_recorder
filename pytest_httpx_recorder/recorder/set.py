@@ -86,7 +86,7 @@ class ResSet:
             request = RecordedRequest(
                 method=request_data['method'],
                 url=request_data['url'],
-                headers=httpx.Headers(request_data['headers']),
+                headers=request_data['headers'],
                 content=base64_decode(request_data['content']) if request_data['content'] is not None else None,
             )
 
@@ -97,7 +97,7 @@ class ResSet:
                 request=request,
                 status_code=response_data['status_code'],
                 http_version=response_data['http_version'],
-                headers=httpx.Headers(response_data['headers']),
+                headers=response_data['headers'],
                 content=content,
             )
             responses.append(response)
