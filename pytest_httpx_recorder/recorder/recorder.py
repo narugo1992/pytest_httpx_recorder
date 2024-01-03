@@ -1,5 +1,5 @@
 import copy
-from contextlib import contextmanager
+from contextlib import contextmanager, asynccontextmanager
 from typing import List, Set
 
 import httpx
@@ -53,8 +53,7 @@ class ResRecorder:
             content=response.content,
         ))
 
-    @contextmanager
-    def record(self):
+    def _patch(self):
         monkeypatch = MonkeyPatch()
 
         def _mocked_handle_request(
@@ -75,7 +74,7 @@ class ResRecorder:
                 transport: httpx.AsyncHTTPTransport, request: httpx.Request
         ) -> httpx.Response:
             response = await _REAL_HANDLE_ASYNC_REQUEST(transport, request)
-            response.read()
+            await response.aread()
             self._add_response(request, response)
             return response
 
@@ -85,6 +84,19 @@ class ResRecorder:
             _mocked_handle_async_request,
         )
 
+        return monkeypatch
+
+    @contextmanager
+    def record(self):
+        monkeypatch = self._patch()
+        try:
+            yield
+        finally:
+            monkeypatch.undo()
+
+    @asynccontextmanager
+    async def async_record(self):
+        monkeypatch = self._patch()
         try:
             yield
         finally:

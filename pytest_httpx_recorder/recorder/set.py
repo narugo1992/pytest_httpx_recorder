@@ -60,8 +60,8 @@ class ResSet:
                     'method': response.request.method,
                     'url': response.request.url,
                     'headers': response.request.headers,
-                    'content': base64_encode(
-                        response.request.content) if response.request.content is not None else None,
+                    'content': base64_encode(response.request.content)
+                    if response.request.content is not None else None,
                 },
                 'response': {
                     'status_code': response.status_code,
