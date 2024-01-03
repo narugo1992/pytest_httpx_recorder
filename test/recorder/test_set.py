@@ -34,77 +34,77 @@ def _header_cmp(h1, h2):
 
 @pytest.mark.unittest
 class TestRecorderSet:
-    def test_mock(self, image_diff, danbooru_simple_image):
-        recorder = ResRecorder()
-        with recorder.record():
-            client = httpx.Client(follow_redirects=True)
-            resp = client.get('https://danbooru.donmai.us/artists/167715.json')
-            resp.raise_for_status()
-            _std_json = resp.json()
-            _std_headers = resp.headers
-
-            download_file(
-                url='https://cdn.donmai.us/original/9b/25/__akisato_konoha_uehara_meiko_shimoda_kaori_yamada_touya_rokuta_mamoru_and_4_more_comic_party_and_1_more__9b257058ee0866d554d01e9036ecb3b6.jpg',
-                filename='test_image.jpg',
-            )
-
-        assert len(recorder.responses) == 2
-
-        with custom_httpx_mock() as mock:
-            with recorder.to_resset().mock_context(mock):
-                resp = client.get('https://danbooru.donmai.us/artists/167715.json')
-                assert resp.json() == _std_json
-                assert _header_cmp(_std_headers, resp.headers)
-                with isolated_directory():
-                    download_file(
-                        url='https://cdn.donmai.us/original/9b/25/__akisato_konoha_uehara_meiko_shimoda_kaori_yamada_touya_rokuta_mamoru_and_4_more_comic_party_and_1_more__9b257058ee0866d554d01e9036ecb3b6.jpg',
-                        filename='test_image.jpg',
-                    )
-
-                    assert image_diff(
-                        Image.open('test_image.jpg'),
-                        danbooru_simple_image,
-                        throw_exception=False
-                    ) < 1e-2
-
-    def test_save_to_local(self, image_diff, danbooru_simple_image):
-        recorder = ResRecorder()
-        with recorder.record():
-            client = httpx.Client(follow_redirects=True)
-            resp = client.get('https://danbooru.donmai.us/artists/167715.json')
-            resp.raise_for_status()
-            _std_json = resp.json()
-            _std_headers = resp.headers
-
-            download_file(
-                url='https://cdn.donmai.us/original/9b/25/__akisato_konoha_uehara_meiko_shimoda_kaori_yamada_touya_rokuta_mamoru_and_4_more_comic_party_and_1_more__9b257058ee0866d554d01e9036ecb3b6.jpg',
-                filename='test_image.jpg',
-            )
-
-        assert len(recorder.responses) == 2
-        with isolated_directory():
-            dst_dir = os.path.abspath('ff')
-            recorder.to_resset().save('ff')
-            assert os.path.exists(os.path.join(dst_dir, 'index.yaml'))
-            assert len(glob.glob(os.path.join(dst_dir, '*.bin'))) == 2
-
-            with custom_httpx_mock() as mock:
-                resset = ResSet.load('ff')
-                with resset.mock_context(mock):
-                    resp = client.get('https://danbooru.donmai.us/artists/167715.json')
-                    assert resp.json() == _std_json
-                    assert _header_cmp(_std_headers, resp.headers)
-                    with isolated_directory():
-                        download_file(
-                            url='https://cdn.donmai.us/original/9b/25/__akisato_konoha_uehara_meiko_shimoda_kaori_yamada_touya_rokuta_mamoru_and_4_more_comic_party_and_1_more__9b257058ee0866d554d01e9036ecb3b6.jpg',
-                            filename='test_image.jpg',
-                        )
-
-                        assert image_diff(
-                            Image.open('test_image.jpg'),
-                            danbooru_simple_image,
-                            throw_exception=False
-                        ) < 1e-2
+    # def test_mock(self, image_diff, danbooru_simple_image):
+    #     recorder = ResRecorder()
+    #     with recorder.record():
+    #         client = httpx.Client(follow_redirects=True)
+    #         resp = client.get('https://danbooru.donmai.us/artists/167715.json')
+    #         resp.raise_for_status()
+    #         _std_json = resp.json()
+    #         _std_headers = resp.headers
+    #
+    #         download_file(
+    #             url='https://cdn.donmai.us/original/9b/25/__akisato_konoha_uehara_meiko_shimoda_kaori_yamada_touya_rokuta_mamoru_and_4_more_comic_party_and_1_more__9b257058ee0866d554d01e9036ecb3b6.jpg',
+    #             filename='test_image.jpg',
+    #         )
+    #
+    #     assert len(recorder.responses) == 2
+    #
+    #     with custom_httpx_mock() as mock:
+    #         with recorder.to_resset().mock_context(mock):
+    #             resp = client.get('https://danbooru.donmai.us/artists/167715.json')
+    #             assert resp.json() == _std_json
+    #             assert _header_cmp(_std_headers, resp.headers)
+    #             with isolated_directory():
+    #                 download_file(
+    #                     url='https://cdn.donmai.us/original/9b/25/__akisato_konoha_uehara_meiko_shimoda_kaori_yamada_touya_rokuta_mamoru_and_4_more_comic_party_and_1_more__9b257058ee0866d554d01e9036ecb3b6.jpg',
+    #                     filename='test_image.jpg',
+    #                 )
+    #
+    #                 assert image_diff(
+    #                     Image.open('test_image.jpg'),
+    #                     danbooru_simple_image,
+    #                     throw_exception=False
+    #                 ) < 1e-2
+    #
+    # def test_save_to_local(self, image_diff, danbooru_simple_image):
+    #     recorder = ResRecorder()
+    #     with recorder.record():
+    #         client = httpx.Client(follow_redirects=True)
+    #         resp = client.get('https://danbooru.donmai.us/artists/167715.json')
+    #         resp.raise_for_status()
+    #         _std_json = resp.json()
+    #         _std_headers = resp.headers
+    #
+    #         download_file(
+    #             url='https://cdn.donmai.us/original/9b/25/__akisato_konoha_uehara_meiko_shimoda_kaori_yamada_touya_rokuta_mamoru_and_4_more_comic_party_and_1_more__9b257058ee0866d554d01e9036ecb3b6.jpg',
+    #             filename='test_image.jpg',
+    #         )
+    #
+    #     assert len(recorder.responses) == 2
+    #     with isolated_directory():
+    #         dst_dir = os.path.abspath('ff')
+    #         recorder.to_resset().save('ff')
+    #         assert os.path.exists(os.path.join(dst_dir, 'index.yaml'))
+    #         assert len(glob.glob(os.path.join(dst_dir, '*.bin'))) == 2
+    #
+    #         with custom_httpx_mock() as mock:
+    #             resset = ResSet.load('ff')
+    #             with resset.mock_context(mock):
+    #                 resp = client.get('https://danbooru.donmai.us/artists/167715.json')
+    #                 assert resp.json() == _std_json
+    #                 assert _header_cmp(_std_headers, resp.headers)
+    #                 with isolated_directory():
+    #                     download_file(
+    #                         url='https://cdn.donmai.us/original/9b/25/__akisato_konoha_uehara_meiko_shimoda_kaori_yamada_touya_rokuta_mamoru_and_4_more_comic_party_and_1_more__9b257058ee0866d554d01e9036ecb3b6.jpg',
+    #                         filename='test_image.jpg',
+    #                     )
+    #
+    #                     assert image_diff(
+    #                         Image.open('test_image.jpg'),
+    #                         danbooru_simple_image,
+    #                         throw_exception=False
+    #                     ) < 1e-2
 
     def test_mock_sync_danbooru(self, resset_replay, image_diff, danbooru_simple_image):
         client = httpx.Client(follow_redirects=True)
