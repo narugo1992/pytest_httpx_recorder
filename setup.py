@@ -47,7 +47,7 @@ setup(
     author=meta['__AUTHOR__'],
     author_email=meta['__AUTHOR_EMAIL__'],
     license='Apache License, Version 2.0',
-    keywords='Utilities of images.',
+    keywords='Recorder feature based on pytest_httpx, like recorder feature in responses.',
     url='https://github.com/narugo1992/pytest_httpx_recorder',
 
     # environment
