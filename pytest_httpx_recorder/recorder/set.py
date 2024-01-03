@@ -75,7 +75,8 @@ class ResSet:
             yaml.dump({'responses': records}, f)
 
     @classmethod
-    def load(cls, index_dir: str) -> 'ResSet':
+    def load(cls, index_dir: str, ignore_request_headers: bool = False,
+             ignore_request_body: bool = False) -> 'ResSet':
         index_file = os.path.join(index_dir, 'index.yaml')
         with open(index_file, 'r') as f:
             raw_data = yaml.safe_load(f)
@@ -86,8 +87,9 @@ class ResSet:
             request = RecordedRequest(
                 method=request_data['method'],
                 url=request_data['url'],
-                headers=request_data['headers'],
-                content=base64_decode(request_data['content']) if request_data['content'] is not None else None,
+                headers=request_data['headers'] if not ignore_request_headers else {},
+                content=(base64_decode(request_data['content'])
+                         if not ignore_request_body and request_data['content'] is not None else None),
             )
 
             response_data = item['response']
