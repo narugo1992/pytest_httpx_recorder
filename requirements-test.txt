@@ -9,8 +9,17 @@ pytest-xdist>=1.34.0
 pytest-rerunfailures~=10.2
 pytest-timeout~=2.0.2
 pytest-benchmark~=3.4.0
+pytest-asyncio
+anyio
+pytest-tornasync
+pytest-trio
+pytest-twisted
+pytest-image-diff
+twisted
 easydict>=1.7,<2
 testtools>=2
 where>=1.0.2
 responses>=0.20.0
 natsort
+tqdm
+pillow
