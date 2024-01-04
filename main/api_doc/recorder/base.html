@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pytest_httpx_recorder.recorder.base &mdash; pytest_httpx_recorder 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=c9d0a6ec" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=f6245a2f"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="pytest_httpx_recorder.recorder.recorder" href="recorder.html" />
+    <link rel="prev" title="pytest_httpx_recorder.recorder" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pytest_httpx_recorder
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../information/environment.result.html">Run Environment Information</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">pytest_httpx_recorder.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">pytest_httpx_recorder.recorder</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pytest_httpx_recorder.recorder.base</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#recordedrequest">RecordedRequest</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pytest_httpx_recorder.recorder.base.RecordedRequest"><code class="docutils literal notranslate"><span class="pre">RecordedRequest</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#recordedresponse">RecordedResponse</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pytest_httpx_recorder.recorder.base.RecordedResponse"><code class="docutils literal notranslate"><span class="pre">RecordedResponse</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#get-dict-headers">get_dict_headers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pytest_httpx_recorder.recorder.base.get_dict_headers"><code class="docutils literal notranslate"><span class="pre">get_dict_headers()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="recorder.html">pytest_httpx_recorder.recorder.recorder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="set.html">pytest_httpx_recorder.recorder.set</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pytest_httpx_recorder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">pytest_httpx_recorder.recorder</a></li>
+      <li class="breadcrumb-item active">pytest_httpx_recorder.recorder.base</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api_doc/recorder/base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+    
+    
+  <section id="module-pytest_httpx_recorder.recorder.base">
+<span id="pytest-httpx-recorder-recorder-base"></span><h1>pytest_httpx_recorder.recorder.base<a class="headerlink" href="#module-pytest_httpx_recorder.recorder.base" title="Permalink to this heading"></a></h1>
+<p>This module provides classes and functions for recording HTTP requests and responses,
+and for converting HTTPX headers to a dictionary format.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>RecordedRequest: Data class for storing details of a recorded HTTP request.
+RecordedResponse: Data class for storing details of a recorded HTTP response.</p>
+</dd>
+<dt>Functions:</dt><dd><p>get_dict_headers(headers): Converts httpx.Headers to a standard Python dictionary.</p>
+</dd>
+</dl>
+<section id="recordedrequest">
+<h2>RecordedRequest<a class="headerlink" href="#recordedrequest" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_httpx_recorder.recorder.base.RecordedRequest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_httpx_recorder.recorder.base.</span></span><span class="sig-name descname"><span class="pre">RecordedRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pytest_httpx_recorder/recorder/base.html#RecordedRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_httpx_recorder.recorder.base.RecordedRequest" title="Permalink to this definition"></a></dt>
+<dd><p>A data class that represents a recorded HTTP request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<em>str</em>) – The HTTP method of the request.</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – The URL of the request.</p></li>
+<li><p><strong>headers</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – The headers of the request.</p></li>
+<li><p><strong>content</strong> (<em>bytes</em>) – The content of the request.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="recordedresponse">
+<h2>RecordedResponse<a class="headerlink" href="#recordedresponse" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_httpx_recorder.recorder.base.RecordedResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pytest_httpx_recorder.recorder.base.</span></span><span class="sig-name descname"><span class="pre">RecordedResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pytest_httpx_recorder.recorder.base.RecordedRequest" title="pytest_httpx_recorder.recorder.base.RecordedRequest"><span class="pre">RecordedRequest</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">status_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">http_version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pytest_httpx_recorder/recorder/base.html#RecordedResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_httpx_recorder.recorder.base.RecordedResponse" title="Permalink to this definition"></a></dt>
+<dd><p>A data class that represents a recorded HTTP response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<a class="reference internal" href="#pytest_httpx_recorder.recorder.base.RecordedRequest" title="pytest_httpx_recorder.recorder.base.RecordedRequest"><em>RecordedRequest</em></a>) – The associated <cite>RecordedRequest</cite> object.</p></li>
+<li><p><strong>status_code</strong> (<em>int</em>) – The HTTP status code of the response.</p></li>
+<li><p><strong>http_version</strong> (<em>str</em>) – The HTTP version used in the response.</p></li>
+<li><p><strong>headers</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – The headers of the response.</p></li>
+<li><p><strong>content</strong> (<em>bytes</em>) – The content of the response.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If an incompatible type is provided for any field.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="get-dict-headers">
+<h2>get_dict_headers<a class="headerlink" href="#get-dict-headers" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_httpx_recorder.recorder.base.get_dict_headers">
+<span class="sig-prename descclassname"><span class="pre">pytest_httpx_recorder.recorder.base.</span></span><span class="sig-name descname"><span class="pre">get_dict_headers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Headers</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/pytest_httpx_recorder/recorder/base.html#get_dict_headers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytest_httpx_recorder.recorder.base.get_dict_headers" title="Permalink to this definition"></a></dt>
+<dd><p>Converts httpx.Headers to a standard Python dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>headers</strong> (<em>httpx.Headers</em>) – The httpx.Headers object to convert.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, str]</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If there is an issue decoding the headers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="pytest_httpx_recorder.recorder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="recorder.html" class="btn btn-neutral float-right" title="pytest_httpx_recorder.recorder.recorder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, narugo1992.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="base.html">main</a></dd>
+                </dl>
+        </div>
+    </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
