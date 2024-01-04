@@ -1,3 +1,14 @@
+"""
+This module provides the ResSet class for managing sets of recorded HTTP responses,
+along with functionality to save and load these sets from the filesystem.
+
+Classes:
+    ResSet: Manages a set of RecordedResponse objects.
+
+Functions:
+    _fake_get_content_decoder: Overrides the default content decoder in httpx.Response.
+"""
+
 import os.path
 import uuid
 from contextlib import contextmanager
@@ -17,19 +28,47 @@ _REAL_GET_CONTENT_DECODER = httpx.Response._get_content_decoder
 
 
 def _fake_get_content_decoder(self):
+    """
+    A fake content decoder that overrides the default method in httpx.Response.
+
+    :return: An IdentityDecoder instance.
+    :rtype: IdentityDecoder
+    """
+    _ = self
     return IdentityDecoder()
 
 
 @dataclass(repr=True, eq=True)
 class ResSet:
+    """
+    A data class for managing a set of RecordedResponse objects.
+
+    :param responses: A list of RecordedResponse objects.
+    :type responses: List[RecordedResponse]
+    """
+
     responses: List[RecordedResponse]
 
     def add_to_mock(self, mock: HTTPXMock):
+        """
+        Adds all recorded responses in this set to an HTTPXMock object.
+
+        :param mock: The mock to add responses to.
+        :type mock: HTTPXMock
+        """
         for response in self.responses:
             response.add_to_mock(mock)
 
     @contextmanager
     def mock_context(self, mock: HTTPXMock):
+        """
+        A context manager to set up a mock HTTP environment using the recorded responses.
+
+        :param mock: The mock to use in the context.
+        :type mock: HTTPXMock
+
+        :yields: The configured HTTPXMock object.
+        """
         monkeypatch = MonkeyPatch()
         try:
             monkeypatch.setattr(
@@ -45,6 +84,12 @@ class ResSet:
             monkeypatch.undo()
 
     def save(self, index_dir: str):
+        """
+        Saves the recorded responses to the filesystem.
+
+        :param index_dir: Directory where responses will be saved.
+        :type index_dir: str
+        """
         index_file = os.path.join(index_dir, 'index.yaml')
         os.makedirs(index_dir, exist_ok=True)
 
@@ -77,6 +122,19 @@ class ResSet:
     @classmethod
     def load(cls, index_dir: str, ignore_request_headers: bool = False,
              ignore_request_body: bool = False) -> 'ResSet':
+        """
+        Loads a set of recorded responses from the filesystem.
+
+        :param index_dir: Directory where responses are stored.
+        :type index_dir: str
+        :param ignore_request_headers: Flag to ignore request headers while loading.
+        :type ignore_request_headers: bool
+        :param ignore_request_body: Flag to ignore request body while loading.
+        :type ignore_request_body: bool
+
+        :return: An instance of ResSet loaded with the recorded responses.
+        :rtype: ResSet
+        """
         index_file = os.path.join(index_dir, 'index.yaml')
         with open(index_file, 'r') as f:
             raw_data = yaml.safe_load(f)

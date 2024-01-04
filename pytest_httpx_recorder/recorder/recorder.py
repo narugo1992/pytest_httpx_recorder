@@ -1,3 +1,15 @@
+"""
+This module provides a class to record HTTP requests and responses using the `httpx` library.
+It allows users to capture and analyze HTTP traffic for testing and debugging purposes.
+
+Classes:
+    ResRecorder: Records HTTP requests and responses.
+
+Functions:
+    _mocked_handle_request: Mocks the handle_request method of httpx.HTTPTransport.
+    _mocked_handle_async_request: Mocks the handle_async_request method of httpx.AsyncHTTPTransport.
+"""
+
 import copy
 from contextlib import contextmanager, asynccontextmanager
 from typing import List, Set
@@ -8,10 +20,7 @@ from pytest import MonkeyPatch
 
 from .base import RecordedRequest, RecordedResponse, get_dict_headers
 
-_HEADERS_DEFAULT_BLACKLIST = [
-    'user-agent',
-    'cookie',
-]
+_HEADERS_DEFAULT_BLACKLIST = ['user-agent', 'cookie']
 _HEADERS_BLACKLIST_NOTSET = object()
 
 _REAL_HANDLE_REQUEST = httpx.HTTPTransport.handle_request
@@ -19,6 +28,20 @@ _REAL_HANDLE_ASYNC_REQUEST = httpx.AsyncHTTPTransport.handle_async_request
 
 
 class ResRecorder:
+    """
+    A class to record HTTP requests and responses.
+
+    :param record_request_headers: Flag to determine if request headers should be recorded.
+    :type record_request_headers: bool
+    :param request_headers_blacklist: List of header keys to exclude from recording.
+    :type request_headers_blacklist: List[str]
+    :param record_request_content: Flag to determine if request content should be recorded.
+    :type record_request_content: bool
+
+    :ivar responses: List of recorded responses.
+    :vartype responses: List[RecordedResponse]
+    """
+
     def __init__(self, record_request_headers: bool = True,
                  request_headers_blacklist: List[str] = _HEADERS_BLACKLIST_NOTSET,
                  record_request_content: bool = True):
@@ -31,10 +54,17 @@ class ResRecorder:
             normalize_header_key(key, lower=True) for key in self.request_headers_blacklist
         }
         self.record_request_content = record_request_content
-
         self.responses: List[RecordedResponse] = []
 
     def _add_response(self, request: httpx.Request, response: httpx.Response):
+        """
+        Adds a recorded response to the responses list.
+
+        :param request: The HTTP request object.
+        :type request: httpx.Request
+        :param response: The HTTP response object.
+        :type response: httpx.Response
+        """
         self.responses.append(RecordedResponse(
             request=RecordedRequest(
                 method=request.method,
@@ -54,6 +84,12 @@ class ResRecorder:
         ))
 
     def _patch(self):
+        """
+        Patches the `handle_request` and `handle_async_request` methods of the httpx transport classes.
+
+        :return: MonkeyPatch instance used for patching.
+        :rtype: MonkeyPatch
+        """
         monkeypatch = MonkeyPatch()
 
         def _mocked_handle_request(
@@ -88,6 +124,11 @@ class ResRecorder:
 
     @contextmanager
     def record(self):
+        """
+        A context manager for recording synchronous HTTP requests and responses.
+
+        :yields: None
+        """
         monkeypatch = self._patch()
         try:
             yield
@@ -96,6 +137,11 @@ class ResRecorder:
 
     @asynccontextmanager
     async def async_record(self):
+        """
+        An async context manager for recording asynchronous HTTP requests and responses.
+
+        :yields: None
+        """
         monkeypatch = self._patch()
         try:
             yield
@@ -103,5 +149,11 @@ class ResRecorder:
             monkeypatch.undo()
 
     def to_resset(self):
+        """
+        Converts the recorded responses to a ResSet object.
+
+        :return: ResSet object containing the recorded responses.
+        :rtype: ResSet
+        """
         from .set import ResSet
         return ResSet(self.responses)

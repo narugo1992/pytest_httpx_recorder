@@ -29,6 +29,7 @@ like recorder feature in responses
     :caption: API Documentation
 
     api_doc/config/index
+    api_doc/recorder/index
 
 .. toctree::
     :maxdepth: 2
